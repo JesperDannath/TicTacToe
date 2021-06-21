@@ -1,0 +1,27 @@
+package tictactoe.KI;
+
+import java.util.Random;
+
+import tictactoe.materialien.Spielfeld;
+
+public class RandomZugberechner implements ZugberechnerService 
+{
+	Random _randomGenerator;
+	
+	public RandomZugberechner()
+	{
+		_randomGenerator = new Random();
+	}
+
+	@Override
+	public int berechneZug(Spielfeld spielstand) 
+	{
+		return _randomGenerator.nextInt(9);
+	}
+
+	@Override
+	public void setUpModel() 
+	{
+	}
+
+}

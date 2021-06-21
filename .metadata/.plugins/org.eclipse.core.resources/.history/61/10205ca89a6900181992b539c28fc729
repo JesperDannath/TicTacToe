@@ -1,0 +1,38 @@
+package tictactoe.KI;
+
+import tictactoe.Beobachtbar;
+import tictactoe.Beobachter;
+import tictactoe.fachwerte.Feldwert;
+import tictactoe.fachwerte.Spielwert;
+import tictactoe.services.Zugservice;
+
+public class KiService extends Beobachtbar implements Beobachter
+{
+	private Zugservice _zugservice;
+	private FileReader _filereader;
+	private ZugberechnerService _zugberechner;
+
+	public KiService(Zugservice zugservice)
+	{
+		_zugservice = zugservice;
+		_zugservice.setzeBeobachter(this);
+		_zugberechner = new RandomZugberechner();
+	}
+
+	@Override
+	public void beachteAenderungen() 
+	{
+		if(_zugservice.gibSpielwert() != Spielwert.GESTARTET)
+		{
+			_filereader = new FileReader("spieldaten.csv");
+			_filereader.druckeDaten();
+		}
+		
+		//Berechnet den KI-Zug auf Basis des aktuellen Spielfeldes
+		if(_zugservice.gibAktuellenSpieler() != Feldwert.KREUZ)
+		{
+			_zugservice.macheZug(_zugberechner.berechneZug(_zugservice.gibSpielfeld()));
+		}
+	}
+
+}
